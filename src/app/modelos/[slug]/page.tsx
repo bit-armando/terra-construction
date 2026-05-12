@@ -114,8 +114,8 @@ export default function ModelDetailPage() {
       </div>
 
       {/* Gallery */}
-      <section className="relative bg-stone-900">
-        <div className="relative aspect-[16/9] lg:aspect-[21/9] max-h-[70vh]">
+      <section className="relative">
+        <div className="relative h-[52vh] lg:h-[68vh] w-full">
           <SafeImage
             src={model.images[currentImage]}
             alt={`${model.name} - Imagen ${currentImage + 1}`}
@@ -355,8 +355,6 @@ export default function ModelDetailPage() {
                 <ModelCard
                   key={m.id}
                   model={m}
-                  isFavorite={false}
-                  onToggleFavorite={() => {}}
                   viewMode="grid"
                 />
               ))}
