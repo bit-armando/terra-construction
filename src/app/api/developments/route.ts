@@ -15,6 +15,7 @@ function mapRow(row: Record<string, unknown>) {
     progress: row.progress as number,
     availableModels: JSON.parse((row.available_models_json as string) || "[]"),
     coordinates: row.lat ? { lat: row.lat as number, lng: row.lng as number } : undefined,
+    active: row.active !== 0,
   };
 }
 
@@ -36,9 +37,9 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const db = getDbClient();
     await db.execute({
-      sql: `INSERT INTO developments (id, slug, name, description, location, thumbnail, images_json, amenities_json, progress, available_models_json, lat, lng)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      args: [crypto.randomUUID(), body.slug, body.name, body.description, body.location, body.thumbnail, JSON.stringify(body.images || []), JSON.stringify(body.amenities || []), body.progress, JSON.stringify(body.availableModels || []), body.lat || null, body.lng || null],
+      sql: `INSERT INTO developments (id, slug, name, description, location, thumbnail, images_json, amenities_json, progress, available_models_json, lat, lng, active)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      args: [crypto.randomUUID(), body.slug, body.name, body.description, body.location, body.thumbnail, JSON.stringify(body.images || []), JSON.stringify(body.amenities || []), body.progress, JSON.stringify(body.availableModels || []), body.coordinates?.lat ?? null, body.coordinates?.lng ?? null, body.active !== false ? 1 : 0],
     });
     return NextResponse.json({ success: true });
   } catch (error) {

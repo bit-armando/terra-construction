@@ -33,6 +33,7 @@ export interface Development {
   progress: number;
   availableModels: string[];
   coordinates?: { lat: number; lng: number };
+  active: boolean;
 }
 
 export interface Testimonial {

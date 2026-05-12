@@ -45,6 +45,7 @@ CREATE TABLE IF NOT EXISTS developments (
   available_models_json TEXT DEFAULT '[]',
   lat REAL,
   lng REAL,
+  active INTEGER NOT NULL DEFAULT 1,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );

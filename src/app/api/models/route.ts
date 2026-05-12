@@ -50,8 +50,8 @@ export async function POST(request: NextRequest) {
       sql: `INSERT INTO models (
         id, slug, name, description, price, price_from, bedrooms, bathrooms,
         sqm, parking, status, images_json, thumbnail, location, development,
-        features_json, plan_url, similar_models_json
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        features_json, plan_url, video_url, virtual_tour, similar_models_json
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       args: [
         crypto.randomUUID(),
         body.slug,
@@ -70,6 +70,8 @@ export async function POST(request: NextRequest) {
         body.development,
         JSON.stringify(body.features || []),
         body.planUrl || null,
+        body.videoUrl || null,
+        body.virtualTour || null,
         JSON.stringify(body.similarModels || []),
       ],
     });

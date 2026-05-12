@@ -32,7 +32,7 @@ export function Developments() {
   useEffect(() => {
     fetch("/api/developments")
       .then((r) => r.json())
-      .then((data) => setDevelopments(Array.isArray(data) ? data : []))
+      .then((data) => setDevelopments(Array.isArray(data) ? data.filter((d: Development) => d.active) : []))
       .catch(() => {});
   }, []);
 

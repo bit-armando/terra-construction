@@ -16,7 +16,7 @@ export async function PUT(
       sql: `UPDATE developments SET
         slug = ?, name = ?, description = ?, location = ?, thumbnail = ?,
         images_json = ?, amenities_json = ?, progress = ?, available_models_json = ?,
-        lat = ?, lng = ?, updated_at = CURRENT_TIMESTAMP
+        lat = ?, lng = ?, active = ?, updated_at = CURRENT_TIMESTAMP
       WHERE id = ?`,
       args: [
         body.slug,
@@ -28,8 +28,9 @@ export async function PUT(
         JSON.stringify(body.amenities || []),
         body.progress,
         JSON.stringify(body.availableModels || []),
-        body.lat || null,
-        body.lng || null,
+        body.coordinates?.lat ?? null,
+        body.coordinates?.lng ?? null,
+        body.active !== false ? 1 : 0,
         params.id,
       ],
     });

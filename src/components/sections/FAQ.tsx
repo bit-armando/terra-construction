@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { HelpCircle } from "lucide-react";
 import {
@@ -8,9 +9,20 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { faqs } from "@/data/faq";
+import { FAQ as FAQType } from "@/lib/types";
 
 export function FAQ() {
+  const [faqs, setFaqs] = useState<FAQType[]>([]);
+
+  useEffect(() => {
+    fetch("/api/faq")
+      .then((r) => r.json())
+      .then((d) => setFaqs(Array.isArray(d) ? d : []))
+      .catch(() => {});
+  }, []);
+
+  if (faqs.length === 0) return null;
+
   return (
     <section className="py-20 lg:py-28 bg-stone-50">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">

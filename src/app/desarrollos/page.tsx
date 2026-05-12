@@ -42,6 +42,7 @@ function mapDev(row: Record<string, unknown>): Development {
     progress: row.progress as number,
     availableModels: JSON.parse((row.available_models_json as string) || "[]"),
     coordinates: row.lat ? { lat: row.lat as number, lng: row.lng as number } : undefined,
+    active: row.active !== 0,
   };
 }
 
@@ -88,7 +89,8 @@ async function getData() {
 }
 
 export default async function DevelopmentsPage() {
-  const { developments, houseModels } = await getData();
+  const { developments: all, houseModels } = await getData();
+  const developments = all.filter((d) => d.active);
 
   return (
     <div className="min-h-screen bg-stone-50 pt-20">
@@ -113,9 +115,7 @@ export default async function DevelopmentsPage() {
         ) : (
           <div className="space-y-12">
             {developments.map((dev) => {
-              const models = houseModels.filter((m) =>
-                dev.availableModels.includes(m.slug)
-              );
+              const models = houseModels.filter((m) => m.development === dev.slug);
 
               return (
                 <div

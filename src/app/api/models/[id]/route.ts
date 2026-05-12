@@ -17,8 +17,8 @@ export async function PUT(
         slug = ?, name = ?, description = ?, price = ?, price_from = ?,
         bedrooms = ?, bathrooms = ?, sqm = ?, parking = ?, status = ?,
         images_json = ?, thumbnail = ?, location = ?, development = ?,
-        features_json = ?, plan_url = ?, similar_models_json = ?,
-        updated_at = CURRENT_TIMESTAMP
+        features_json = ?, plan_url = ?, video_url = ?, virtual_tour = ?,
+        similar_models_json = ?, updated_at = CURRENT_TIMESTAMP
       WHERE id = ?`,
       args: [
         body.slug,
@@ -37,6 +37,8 @@ export async function PUT(
         body.development,
         JSON.stringify(body.features || []),
         body.planUrl || null,
+        body.videoUrl || null,
+        body.virtualTour || null,
         JSON.stringify(body.similarModels || []),
         params.id,
       ],

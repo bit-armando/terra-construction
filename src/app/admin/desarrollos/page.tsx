@@ -15,8 +15,8 @@ import {
 import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
 import { ImageUpload } from "@/components/admin/ImageUpload";
 import { ListInput } from "@/components/admin/ListInput";
-import { HouseModel } from "@/lib/types";
-import { Pencil, Trash2, Plus, Loader2, AlertTriangle } from "lucide-react";
+import { LocationPicker } from "@/components/admin/LocationPicker";
+import { Pencil, Trash2, Plus, Loader2, AlertTriangle, Eye, EyeOff } from "lucide-react";
 
 type FormData = Omit<Development, "id"> & { id?: string };
 
@@ -31,30 +31,26 @@ const emptyForm: FormData = {
   progress: 0,
   availableModels: [],
   coordinates: undefined,
+  active: true,
 };
 
 export default function AdminDevelopmentsPage() {
   const [items, setItems] = useState<Development[]>([]);
-  const [models, setModels] = useState<HouseModel[]>([]);
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [form, setForm] = useState<FormData>(emptyForm);
   const [saving, setSaving] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [togglingId, setTogglingId] = useState<string | null>(null);
   const [error, setError] = useState("");
 
   async function load() {
     setLoading(true);
     try {
-      const [devRes, modRes] = await Promise.all([
-        fetch("/api/developments"),
-        fetch("/api/models"),
-      ]);
-      const devData = await devRes.json();
-      const modData = await modRes.json();
-      setItems(Array.isArray(devData) ? devData : []);
-      setModels(Array.isArray(modData) ? modData : []);
+      const res = await fetch("/api/developments");
+      const data = await res.json();
+      setItems(Array.isArray(data) ? data : []);
     } catch {
       setItems([]);
     } finally {
@@ -125,6 +121,23 @@ export default function AdminDevelopmentsPage() {
     }
   }
 
+  async function handleToggleActive(item: Development) {
+    setTogglingId(item.id);
+    try {
+      await fetch(`/api/developments/${item.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify({ ...item, active: !item.active }),
+      });
+      load();
+    } catch {
+      // silently fail
+    } finally {
+      setTogglingId(null);
+    }
+  }
+
   function updateField<K extends keyof FormData>(key: K, value: FormData[K]) {
     setForm((f) => ({ ...f, [key]: value }));
   }
@@ -164,21 +177,42 @@ export default function AdminDevelopmentsPage() {
               <thead className="bg-muted border-b border-border">
                 <tr>
                   <th className="text-left px-4 py-3 font-medium text-muted-foreground">Nombre</th>
-                  <th className="text-left px-4 py-3 font-medium text-muted-foreground">Slug</th>
                   <th className="text-left px-4 py-3 font-medium text-muted-foreground">Ubicacion</th>
                   <th className="text-left px-4 py-3 font-medium text-muted-foreground">Avance</th>
+                  <th className="text-left px-4 py-3 font-medium text-muted-foreground">Estado</th>
                   <th className="text-right px-4 py-3 font-medium text-muted-foreground">Acciones</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
                 {items.map((item) => (
-                  <tr key={item.id} className="hover:bg-muted/50">
+                  <tr key={item.id} className={`hover:bg-muted/50 ${!item.active ? "opacity-60" : ""}`}>
                     <td className="px-4 py-3 font-medium text-foreground">{item.name}</td>
-                    <td className="px-4 py-3 text-muted-foreground">{item.slug}</td>
                     <td className="px-4 py-3 text-muted-foreground">{item.location}</td>
                     <td className="px-4 py-3 text-muted-foreground">{item.progress}%</td>
+                    <td className="px-4 py-3">
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${
+                        item.active
+                          ? "bg-green-100 text-green-700"
+                          : "bg-muted text-muted-foreground"
+                      }`}>
+                        {item.active ? "Activo" : "Inactivo"}
+                      </span>
+                    </td>
                     <td className="px-4 py-3 text-right">
-                      <div className="flex items-center justify-end gap-2">
+                      <div className="flex items-center justify-end gap-1">
+                        <Button
+                          size="icon"
+                          variant="ghost"
+                          className={`h-8 w-8 ${item.active ? "text-green-600 hover:text-muted-foreground" : "text-muted-foreground hover:text-green-600"}`}
+                          onClick={() => handleToggleActive(item)}
+                          disabled={togglingId === item.id}
+                          title={item.active ? "Desactivar" : "Activar"}
+                        >
+                          {togglingId === item.id
+                            ? <Loader2 className="w-4 h-4 animate-spin" />
+                            : item.active ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />
+                          }
+                        </Button>
                         <Button
                           size="icon"
                           variant="ghost"
@@ -240,14 +274,6 @@ export default function AdminDevelopmentsPage() {
                 className="w-full rounded-md border border-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="location">Ubicacion</Label>
-              <Input
-                id="location"
-                value={form.location}
-                onChange={(e) => updateField("location", e.target.value)}
-              />
-            </div>
             <div className="space-y-2 sm:col-span-2">
               <Label>Thumbnail</Label>
               <ImageUpload
@@ -262,40 +288,18 @@ export default function AdminDevelopmentsPage() {
                 type="number"
                 min={0}
                 max={100}
-                value={form.progress}
-                onChange={(e) => updateField("progress", Number(e.target.value))}
+                value={form.progress === 0 ? "" : form.progress}
+                placeholder="0"
+                onChange={(e) => updateField("progress", e.target.value === "" ? 0 : Number(e.target.value))}
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="lat">Latitud</Label>
-              <Input
-                id="lat"
-                type="number"
-                step="any"
-                value={form.coordinates?.lat ?? ""}
-                onChange={(e) =>
-                  updateField("coordinates", {
-                    lat: Number(e.target.value),
-                    lng: form.coordinates?.lng ?? 0,
-                  })
-                }
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="lng">Longitud</Label>
-              <Input
-                id="lng"
-                type="number"
-                step="any"
-                value={form.coordinates?.lng ?? ""}
-                onChange={(e) =>
-                  updateField("coordinates", {
-                    lat: form.coordinates?.lat ?? 0,
-                    lng: Number(e.target.value),
-                  })
-                }
-              />
-            </div>
+            <div className="sm:col-span-2" />
+            <LocationPicker
+              location={form.location}
+              coordinates={form.coordinates}
+              onLocationChange={(v) => updateField("location", v)}
+              onCoordinatesChange={(v) => updateField("coordinates", v)}
+            />
             <div className="space-y-2 sm:col-span-2">
               <Label>Imágenes</Label>
               <ImageUpload
@@ -310,15 +314,6 @@ export default function AdminDevelopmentsPage() {
                 value={form.amenities}
                 onChange={(v) => updateField("amenities", v)}
                 placeholder="Ej. Alberca"
-              />
-            </div>
-            <div className="space-y-2 sm:col-span-2">
-              <Label>Modelos disponibles</Label>
-              <ListInput
-                value={form.availableModels}
-                onChange={(v) => updateField("availableModels", v)}
-                placeholder="Seleccionar modelo"
-                options={models.map((m) => ({ label: m.name, value: m.slug }))}
               />
             </div>
           </div>

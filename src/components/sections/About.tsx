@@ -1,9 +1,10 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { SafeImage } from "@/components/shared/SafeImage";
 import { Home, Calendar, Users, Award } from "lucide-react";
-import { teamMembers } from "@/data/team";
+import { TeamMember } from "@/lib/types";
 import { useWhatsApp } from "@/hooks/useWhatsApp";
 import { Button } from "@/components/ui/button";
 
@@ -16,6 +17,14 @@ const stats = [
 
 export function About() {
   const { openWhatsApp } = useWhatsApp();
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
+
+  useEffect(() => {
+    fetch("/api/team")
+      .then((r) => r.json())
+      .then((d) => setTeamMembers(Array.isArray(d) ? d : []))
+      .catch(() => {});
+  }, []);
 
   return (
     <section id="nosotros" className="py-20 lg:py-28 bg-white">

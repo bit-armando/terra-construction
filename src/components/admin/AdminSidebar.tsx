@@ -11,6 +11,9 @@ import {
   Download,
   LogOut,
   Menu,
+  Star,
+  HelpCircle,
+  Users,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -20,6 +23,9 @@ const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/modelos", label: "Modelos", icon: Home },
   { href: "/admin/desarrollos", label: "Desarrollos", icon: Trees },
+  { href: "/admin/testimonios", label: "Testimonios", icon: Star },
+  { href: "/admin/faq", label: "FAQ", icon: HelpCircle },
+  { href: "/admin/equipo", label: "Equipo", icon: Users },
   { href: "/admin/configuracion", label: "Configuración", icon: Settings },
   { href: "/admin/exportar", label: "Exportar", icon: Download },
 ];
