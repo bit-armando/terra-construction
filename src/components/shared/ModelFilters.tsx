@@ -14,9 +14,16 @@ import { FilterState } from "@/lib/types";
 interface Props {
   filters: FilterState;
   onChange: (filters: FilterState) => void;
+  availableBedrooms?: number[];
+  availableLocations?: string[];
 }
 
-export function ModelFilters({ filters, onChange }: Props) {
+export function ModelFilters({
+  filters,
+  onChange,
+  availableBedrooms = [],
+  availableLocations = [],
+}: Props) {
   return (
     <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
       <div className="relative flex-1 sm:flex-none sm:w-64">
@@ -29,36 +36,45 @@ export function ModelFilters({ filters, onChange }: Props) {
         />
       </div>
 
-      <Select
-        value={filters.bedrooms?.toString() || ""}
-        onValueChange={(v) =>
-          onChange({ ...filters, bedrooms: v ? parseInt(v) : null })
-        }
-      >
-        <SelectTrigger className="w-full sm:w-36">
-          <SelectValue placeholder="Recámaras" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="">Todas</SelectItem>
-          <SelectItem value="2">2 recámaras</SelectItem>
-          <SelectItem value="3">3 recámaras</SelectItem>
-          <SelectItem value="4">4 recámaras</SelectItem>
-        </SelectContent>
-      </Select>
+      {availableBedrooms.length > 0 && (
+        <Select
+          value={filters.bedrooms?.toString() || ""}
+          onValueChange={(v) =>
+            onChange({ ...filters, bedrooms: v ? parseInt(v) : null })
+          }
+        >
+          <SelectTrigger className="w-full sm:w-36">
+            <SelectValue placeholder="Recámaras" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="">Todas</SelectItem>
+            {availableBedrooms.map((n) => (
+              <SelectItem key={n} value={n.toString()}>
+                {n} recámaras
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
 
-      <Select
-        value={filters.location || ""}
-        onValueChange={(v) => onChange({ ...filters, location: v || null })}
-      >
-        <SelectTrigger className="w-full sm:w-40">
-          <SelectValue placeholder="Ubicación" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="">Todas</SelectItem>
-          <SelectItem value="Querétaro">Querétaro</SelectItem>
-          <SelectItem value="San Juan del Río">San Juan del Río</SelectItem>
-        </SelectContent>
-      </Select>
+      {availableLocations.length > 0 && (
+        <Select
+          value={filters.location || ""}
+          onValueChange={(v) => onChange({ ...filters, location: v || null })}
+        >
+          <SelectTrigger className="w-full sm:w-40">
+            <SelectValue placeholder="Ubicación" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="">Todas</SelectItem>
+            {availableLocations.map((loc) => (
+              <SelectItem key={loc} value={loc}>
+                {loc}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
 
       <Select
         value={filters.status || ""}

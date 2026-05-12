@@ -1,8 +1,9 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { SafeImage } from "./SafeImage";
 import Link from "next/link";
-import { Heart, Bed, Bath, Maximize, Car, Eye, MessageCircle } from "lucide-react";
+import { Bed, Bath, Maximize, Car, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { HouseModel } from "@/lib/types";
@@ -10,16 +11,16 @@ import { useWhatsApp } from "@/hooks/useWhatsApp";
 
 interface Props {
   model: HouseModel;
-  isFavorite: boolean;
-  onToggleFavorite: () => void;
+  isFavorite?: boolean;
+  onToggleFavorite?: () => void;
   viewMode: "grid" | "list";
 }
 
 const statusConfig = {
-  available: { label: "Disponible", variant: "default" as const, color: "bg-green-500" },
-  "last-units": { label: "Últimas unidades", variant: "secondary" as const, color: "bg-amber-500" },
-  "pre-sale": { label: "Preventa", variant: "outline" as const, color: "bg-blue-500" },
-  "sold-out": { label: "Vendido", variant: "destructive" as const, color: "bg-stone-500" },
+  available: { label: "Disponible", color: "bg-green-500" },
+  "last-units": { label: "Últimas unidades", color: "bg-amber-500" },
+  "pre-sale": { label: "Preventa", color: "bg-blue-500" },
+  "sold-out": { label: "Vendido", color: "bg-stone-500" },
 };
 
 function formatPrice(price: number): string {
@@ -30,9 +31,11 @@ function formatPrice(price: number): string {
   }).format(price);
 }
 
-export function ModelCard({ model, isFavorite, onToggleFavorite, viewMode }: Props) {
+export function ModelCard({ model, viewMode }: Props) {
   const { openWhatsApp } = useWhatsApp();
+  const router = useRouter();
   const status = statusConfig[model.status];
+  const href = `/modelos/${model.slug}`;
 
   const cardContent = (
     <>
@@ -50,21 +53,6 @@ export function ModelCard({ model, isFavorite, onToggleFavorite, viewMode }: Pro
             {status.label}
           </Badge>
         </div>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            onToggleFavorite();
-          }}
-          className="absolute top-3 right-3 w-9 h-9 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors"
-          aria-label={isFavorite ? "Quitar de favoritos" : "Agregar a favoritos"}
-        >
-          <Heart
-            className={`w-5 h-5 transition-colors ${
-              isFavorite ? "fill-red-500 text-red-500" : "text-stone-600"
-            }`}
-          />
-        </button>
         <div className="absolute bottom-3 right-3 text-xs text-white/80 bg-black/40 px-2 py-1 rounded">
           {model.images.length} fotos
         </div>
@@ -121,17 +109,17 @@ export function ModelCard({ model, isFavorite, onToggleFavorite, viewMode }: Pro
 
           <div className="flex gap-2">
             <Link
-              href={`/modelos/${model.slug}`}
-              className="flex-1 inline-flex items-center justify-center gap-1 text-xs font-medium rounded-lg border border-stone-200 bg-white hover:bg-stone-50 h-8 px-3 transition-colors"
+              href={href}
+              onClick={(e) => e.stopPropagation()}
+              className="flex-1 inline-flex items-center justify-center gap-1 text-xs font-medium rounded-lg border border-stone-200 bg-white hover:bg-stone-50 h-8 px-3 transition-colors relative z-10"
             >
-              <Eye className="w-3.5 h-3.5" />
               Ver detalle
             </Link>
             <Button
               size="sm"
-              className="flex-1 bg-whatsapp hover:bg-whatsapp-dark text-white gap-1 text-xs"
+              className="flex-1 bg-whatsapp hover:bg-whatsapp-dark text-white gap-1 text-xs relative z-10"
               onClick={(e) => {
-                e.preventDefault();
+                e.stopPropagation();
                 openWhatsApp({
                   modelName: model.name,
                   modelPrice: model.price,
@@ -148,16 +136,25 @@ export function ModelCard({ model, isFavorite, onToggleFavorite, viewMode }: Pro
     </>
   );
 
+  const sharedClass =
+    "group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 border border-stone-100 cursor-pointer";
+
   if (viewMode === "list") {
     return (
-      <div className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col md:flex-row border border-stone-100">
+      <div
+        className={`${sharedClass} flex flex-col md:flex-row`}
+        onClick={() => router.push(href)}
+      >
         {cardContent}
       </div>
     );
   }
 
   return (
-    <div className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 border border-stone-100 flex flex-col h-full">
+    <div
+      className={`${sharedClass} flex flex-col h-full`}
+      onClick={() => router.push(href)}
+    >
       {cardContent}
     </div>
   );

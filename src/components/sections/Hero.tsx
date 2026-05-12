@@ -70,10 +70,8 @@ export function Hero() {
               <Home className="w-5 h-5" />
               Ver modelos
             </a>
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-white/30 text-white hover:bg-white/10 hover:text-white gap-2 px-8"
+            <button
+              className="inline-flex items-center justify-center gap-2 rounded-lg border border-white/30 bg-transparent text-white hover:bg-white/10 text-sm font-medium h-10 px-8 transition-colors"
               onClick={() =>
                 openWhatsApp({
                   customMessage:
@@ -83,7 +81,7 @@ export function Hero() {
             >
               <Phone className="w-5 h-5" />
               Hablar con asesor
-            </Button>
+            </button>
           </motion.div>
 
           {/* Trust indicators */}

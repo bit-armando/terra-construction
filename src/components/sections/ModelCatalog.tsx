@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { HouseModel, FilterState } from "@/lib/types";
 import { ModelFilters } from "@/components/shared/ModelFilters";
 import { ModelCard } from "@/components/shared/ModelCard";
-import { LayoutGrid, List, Heart } from "lucide-react";
+import { LayoutGrid, List } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function ModelCatalog() {
@@ -18,7 +18,6 @@ export function ModelCatalog() {
     search: "",
   });
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-  const [favorites, setFavorites] = useState<string[]>([]);
 
   useEffect(() => {
     fetch("/api/models")
@@ -27,25 +26,15 @@ export function ModelCatalog() {
       .catch(() => {});
   }, []);
 
-  // Load favorites from localStorage on mount
-  useState(() => {
-    try {
-      const saved = localStorage.getItem("terra-favorites");
-      if (saved) setFavorites(JSON.parse(saved));
-    } catch {
-      // ignore
-    }
-  });
+  const availableBedrooms = useMemo(() => {
+    const set = new Set(allModels.map((m) => m.bedrooms));
+    return Array.from(set).sort((a, b) => a - b);
+  }, [allModels]);
 
-  const toggleFavorite = (id: string) => {
-    setFavorites((prev) => {
-      const next = prev.includes(id)
-        ? prev.filter((f) => f !== id)
-        : [...prev, id];
-      localStorage.setItem("terra-favorites", JSON.stringify(next));
-      return next;
-    });
-  };
+  const availableLocations = useMemo(() => {
+    const set = new Set(allModels.map((m) => m.location).filter(Boolean));
+    return Array.from(set).sort();
+  }, [allModels]);
 
   const filteredModels = useMemo(() => {
     return allModels.filter((model) => {
@@ -90,7 +79,12 @@ export function ModelCatalog() {
 
         {/* Controls */}
         <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between mb-8">
-          <ModelFilters filters={filters} onChange={setFilters} />
+          <ModelFilters
+            filters={filters}
+            onChange={setFilters}
+            availableBedrooms={availableBedrooms}
+            availableLocations={availableLocations}
+          />
           <div className="flex items-center gap-2 ml-auto">
             <Button
               variant={viewMode === "grid" ? "default" : "outline"}
@@ -107,14 +101,6 @@ export function ModelCatalog() {
               className={viewMode === "list" ? "bg-brand-600" : ""}
             >
               <List className="w-4 h-4" />
-            </Button>
-            <Button variant="outline" size="sm" className="gap-2 ml-2">
-              <Heart className="w-4 h-4" />
-              {favorites.length > 0 && (
-                <span className="bg-brand-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                  {favorites.length}
-                </span>
-              )}
             </Button>
           </div>
         </div>
@@ -143,8 +129,6 @@ export function ModelCatalog() {
             >
               <ModelCard
                 model={model}
-                isFavorite={favorites.includes(model.id)}
-                onToggleFavorite={() => toggleFavorite(model.id)}
                 viewMode={viewMode}
               />
             </motion.div>
