@@ -13,6 +13,9 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
+import { ImageUpload } from "@/components/admin/ImageUpload";
+import { ListInput } from "@/components/admin/ListInput";
+import { HouseModel } from "@/lib/types";
 import { Pencil, Trash2, Plus, Loader2, AlertTriangle } from "lucide-react";
 
 type FormData = Omit<Development, "id"> & { id?: string };
@@ -32,6 +35,7 @@ const emptyForm: FormData = {
 
 export default function AdminDevelopmentsPage() {
   const [items, setItems] = useState<Development[]>([]);
+  const [models, setModels] = useState<HouseModel[]>([]);
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [form, setForm] = useState<FormData>(emptyForm);
@@ -43,9 +47,14 @@ export default function AdminDevelopmentsPage() {
   async function load() {
     setLoading(true);
     try {
-      const res = await fetch("/api/developments");
-      const data = await res.json();
-      setItems(Array.isArray(data) ? data : []);
+      const [devRes, modRes] = await Promise.all([
+        fetch("/api/developments"),
+        fetch("/api/models"),
+      ]);
+      const devData = await devRes.json();
+      const modData = await modRes.json();
+      setItems(Array.isArray(devData) ? devData : []);
+      setModels(Array.isArray(modData) ? modData : []);
     } catch {
       setItems([]);
     } finally {
@@ -239,12 +248,11 @@ export default function AdminDevelopmentsPage() {
                 onChange={(e) => updateField("location", e.target.value)}
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="thumbnail">Thumbnail URL</Label>
-              <Input
-                id="thumbnail"
+            <div className="space-y-2 sm:col-span-2">
+              <Label>Thumbnail</Label>
+              <ImageUpload
                 value={form.thumbnail}
-                onChange={(e) => updateField("thumbnail", e.target.value)}
+                onChange={(v) => updateField("thumbnail", v as string)}
               />
             </div>
             <div className="space-y-2">
@@ -289,51 +297,28 @@ export default function AdminDevelopmentsPage() {
               />
             </div>
             <div className="space-y-2 sm:col-span-2">
-              <Label htmlFor="images">Imagenes (JSON array de URLs)</Label>
-              <textarea
-                id="images"
-                value={JSON.stringify(form.images, null, 2)}
-                onChange={(e) => {
-                  try {
-                    updateField("images", JSON.parse(e.target.value));
-                  } catch {
-                    // ignore
-                  }
-                }}
-                rows={3}
-                className="w-full rounded-md border border-border px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-ring"
+              <Label>Imágenes</Label>
+              <ImageUpload
+                value={form.images}
+                onChange={(v) => updateField("images", v as string[])}
+                multiple
               />
             </div>
             <div className="space-y-2 sm:col-span-2">
-              <Label htmlFor="amenities">Amenidades (JSON array de strings)</Label>
-              <textarea
-                id="amenities"
-                value={JSON.stringify(form.amenities, null, 2)}
-                onChange={(e) => {
-                  try {
-                    updateField("amenities", JSON.parse(e.target.value));
-                  } catch {
-                    // ignore
-                  }
-                }}
-                rows={3}
-                className="w-full rounded-md border border-border px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-ring"
+              <Label>Amenidades</Label>
+              <ListInput
+                value={form.amenities}
+                onChange={(v) => updateField("amenities", v)}
+                placeholder="Ej. Alberca"
               />
             </div>
             <div className="space-y-2 sm:col-span-2">
-              <Label htmlFor="availableModels">Modelos disponibles (JSON array de slugs)</Label>
-              <textarea
-                id="availableModels"
-                value={JSON.stringify(form.availableModels, null, 2)}
-                onChange={(e) => {
-                  try {
-                    updateField("availableModels", JSON.parse(e.target.value));
-                  } catch {
-                    // ignore
-                  }
-                }}
-                rows={2}
-                className="w-full rounded-md border border-border px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-ring"
+              <Label>Modelos disponibles</Label>
+              <ListInput
+                value={form.availableModels}
+                onChange={(v) => updateField("availableModels", v)}
+                placeholder="Seleccionar modelo"
+                options={models.map((m) => ({ label: m.name, value: m.slug }))}
               />
             </div>
           </div>

@@ -20,6 +20,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
+import { ImageUpload } from "@/components/admin/ImageUpload";
+import { ListInput } from "@/components/admin/ListInput";
 import { Pencil, Trash2, Plus, Loader2, AlertTriangle } from "lucide-react";
 
 type FormData = Omit<HouseModel, "id"> & { id?: string };
@@ -345,12 +347,11 @@ export default function AdminModelsPage() {
                 onChange={(e) => updateField("development", e.target.value)}
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="thumbnail">Thumbnail URL</Label>
-              <Input
-                id="thumbnail"
+            <div className="space-y-2 sm:col-span-2">
+              <Label>Thumbnail</Label>
+              <ImageUpload
                 value={form.thumbnail}
-                onChange={(e) => updateField("thumbnail", e.target.value)}
+                onChange={(v) => updateField("thumbnail", v as string)}
               />
             </div>
             <div className="space-y-2">
@@ -378,57 +379,30 @@ export default function AdminModelsPage() {
               />
             </div>
             <div className="space-y-2 sm:col-span-2">
-              <Label htmlFor="images">
-                Imágenes (JSON array de URLs)
-              </Label>
-              <textarea
-                id="images"
-                value={JSON.stringify(form.images, null, 2)}
-                onChange={(e) => {
-                  try {
-                    updateField("images", JSON.parse(e.target.value));
-                  } catch {
-                    // ignore invalid JSON while typing
-                  }
-                }}
-                rows={3}
-                className="w-full rounded-md border border-border px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-ring"
+              <Label>Imágenes</Label>
+              <ImageUpload
+                value={form.images}
+                onChange={(v) => updateField("images", v as string[])}
+                multiple
               />
             </div>
             <div className="space-y-2 sm:col-span-2">
-              <Label htmlFor="features">
-                Características (JSON array de strings)
-              </Label>
-              <textarea
-                id="features"
-                value={JSON.stringify(form.features, null, 2)}
-                onChange={(e) => {
-                  try {
-                    updateField("features", JSON.parse(e.target.value));
-                  } catch {
-                    // ignore
-                  }
-                }}
-                rows={3}
-                className="w-full rounded-md border border-border px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-ring"
+              <Label>Características</Label>
+              <ListInput
+                value={form.features}
+                onChange={(v) => updateField("features", v)}
+                placeholder="Ej. Cocina integral"
               />
             </div>
             <div className="space-y-2 sm:col-span-2">
-              <Label htmlFor="similarModels">
-                Modelos similares (JSON array de slugs)
-              </Label>
-              <textarea
-                id="similarModels"
-                value={JSON.stringify(form.similarModels || [], null, 2)}
-                onChange={(e) => {
-                  try {
-                    updateField("similarModels", JSON.parse(e.target.value));
-                  } catch {
-                    // ignore
-                  }
-                }}
-                rows={2}
-                className="w-full rounded-md border border-border px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-ring"
+              <Label>Modelos similares</Label>
+              <ListInput
+                value={form.similarModels || []}
+                onChange={(v) => updateField("similarModels", v)}
+                placeholder="Seleccionar modelo"
+                options={models
+                  .filter((m) => m.id !== form.id)
+                  .map((m) => ({ label: m.name, value: m.slug }))}
               />
             </div>
             <div className="flex items-center gap-2 sm:col-span-2">

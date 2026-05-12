@@ -1,15 +1,15 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
-import { houseModels } from "@/data/models";
-import { FilterState } from "@/lib/types";
+import { HouseModel, FilterState } from "@/lib/types";
 import { ModelFilters } from "@/components/shared/ModelFilters";
 import { ModelCard } from "@/components/shared/ModelCard";
 import { LayoutGrid, List, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function ModelCatalog() {
+  const [allModels, setAllModels] = useState<HouseModel[]>([]);
   const [filters, setFilters] = useState<FilterState>({
     priceRange: [0, 3000000],
     bedrooms: null,
@@ -19,6 +19,13 @@ export function ModelCatalog() {
   });
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [favorites, setFavorites] = useState<string[]>([]);
+
+  useEffect(() => {
+    fetch("/api/models")
+      .then((r) => r.json())
+      .then((data) => setAllModels(Array.isArray(data) ? data : []))
+      .catch(() => {});
+  }, []);
 
   // Load favorites from localStorage on mount
   useState(() => {
@@ -41,7 +48,7 @@ export function ModelCatalog() {
   };
 
   const filteredModels = useMemo(() => {
-    return houseModels.filter((model) => {
+    return allModels.filter((model) => {
       if (model.price < filters.priceRange[0] || model.price > filters.priceRange[1])
         return false;
       if (filters.bedrooms && model.bedrooms !== filters.bedrooms) return false;
@@ -57,7 +64,7 @@ export function ModelCatalog() {
       }
       return true;
     });
-  }, [filters]);
+  }, [filters, allModels]);
 
   return (
     <section id="modelos" className="py-20 lg:py-28 bg-stone-50">

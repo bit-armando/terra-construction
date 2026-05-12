@@ -1,10 +1,11 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { SafeImage } from "@/components/shared/SafeImage";
 import { MapPin, Trees, Shield, Waves, Dumbbell, PartyPopper, Dog, Route } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { developments } from "@/data/developments";
+import { Development } from "@/lib/types";
 import Link from "next/link";
 
 const amenityIcons: Record<string, React.ElementType> = {
@@ -26,6 +27,15 @@ function getAmenityIcon(name: string) {
 }
 
 export function Developments() {
+  const [developments, setDevelopments] = useState<Development[]>([]);
+
+  useEffect(() => {
+    fetch("/api/developments")
+      .then((r) => r.json())
+      .then((data) => setDevelopments(Array.isArray(data) ? data : []))
+      .catch(() => {});
+  }, []);
+
   return (
     <section id="desarrollos" className="py-20 lg:py-28 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

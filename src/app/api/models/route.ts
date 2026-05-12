@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDbClient, isDbConfigured } from "@/lib/db/client";
 import { verifyAdminToken, getAuthErrorResponse } from "@/lib/auth";
-import { houseModels } from "@/data/models";
 
 function mapRowToModel(row: Record<string, unknown>) {
   return {
@@ -29,18 +28,14 @@ function mapRowToModel(row: Record<string, unknown>) {
 }
 
 export async function GET() {
+  if (!isDbConfigured()) return NextResponse.json([]);
   try {
-    if (!isDbConfigured()) {
-      return NextResponse.json(houseModels);
-    }
-
     const db = getDbClient();
     const result = await db.execute("SELECT * FROM models ORDER BY price ASC");
-    const models = result.rows.map(mapRowToModel);
-    return NextResponse.json(models);
+    return NextResponse.json(result.rows.map(mapRowToModel));
   } catch (error) {
     console.error("Error fetching models:", error);
-    return NextResponse.json(houseModels);
+    return NextResponse.json([], { status: 500 });
   }
 }
 

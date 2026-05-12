@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDbClient, isDbConfigured } from "@/lib/db/client";
 import { verifyAdminToken, getAuthErrorResponse } from "@/lib/auth";
-import { developments } from "@/data/developments";
 
 function mapRow(row: Record<string, unknown>) {
   return {
@@ -20,13 +19,14 @@ function mapRow(row: Record<string, unknown>) {
 }
 
 export async function GET() {
+  if (!isDbConfigured()) return NextResponse.json([]);
   try {
-    if (!isDbConfigured()) return NextResponse.json(developments);
     const db = getDbClient();
     const result = await db.execute("SELECT * FROM developments ORDER BY name");
     return NextResponse.json(result.rows.map(mapRow));
-  } catch {
-    return NextResponse.json(developments);
+  } catch (error) {
+    console.error("Error fetching developments:", error);
+    return NextResponse.json([], { status: 500 });
   }
 }
 

@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 import { SafeImage } from "@/components/shared/SafeImage";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Bed,
   Bath,
@@ -20,8 +20,9 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { houseModels } from "@/data/models";
+import { HouseModel } from "@/lib/types";
 import { useWhatsApp } from "@/hooks/useWhatsApp";
+import { Loader2 } from "lucide-react";
 import { MortgageCalculator } from "@/components/shared/MortgageCalculator";
 import { ModelCard } from "@/components/shared/ModelCard";
 
@@ -46,10 +47,30 @@ export default function ModelDetailPage() {
   const slug = params.slug as string;
   const { openWhatsApp } = useWhatsApp();
 
-  const model = houseModels.find((m) => m.slug === slug);
+  const [model, setModel] = useState<HouseModel | null | undefined>(undefined);
+  const [allModels, setAllModels] = useState<HouseModel[]>([]);
   const [currentImage, setCurrentImage] = useState(0);
 
-  if (!model) {
+  useEffect(() => {
+    fetch("/api/models")
+      .then((r) => r.json())
+      .then((data: HouseModel[]) => {
+        const models = Array.isArray(data) ? data : [];
+        setAllModels(models);
+        setModel(models.find((m) => m.slug === slug) ?? null);
+      })
+      .catch(() => setModel(null));
+  }, [slug]);
+
+  if (model === undefined) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-brand-500" />
+      </div>
+    );
+  }
+
+  if (model === null) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -64,7 +85,7 @@ export default function ModelDetailPage() {
     );
   }
 
-  const similarModels = houseModels.filter(
+  const similarModels = allModels.filter(
     (m) => model.similarModels?.includes(m.slug)
   );
 
