@@ -124,17 +124,17 @@ export default function AdminDevelopmentsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-serif text-2xl font-bold text-stone-900">Desarrollos</h1>
-          <p className="text-stone-600">Gestiona los fraccionamientos y desarrollos.</p>
+          <h1 className="font-serif text-2xl font-bold text-foreground">Desarrollos</h1>
+          <p className="text-muted-foreground">Gestiona los fraccionamientos y desarrollos.</p>
         </div>
-        <Button onClick={openNew} className="bg-brand-700 hover:bg-brand-800 gap-2">
+        <Button onClick={openNew} className="gap-2">
           <Plus className="w-4 h-4" />
           Nuevo desarrollo
         </Button>
       </div>
 
       {error && !dialogOpen && (
-        <div className="flex items-center gap-2 text-red-700 bg-red-50 px-4 py-3 rounded-lg border border-red-200 text-sm">
+        <div className="flex items-center gap-2 text-destructive bg-destructive/10 px-4 py-3 rounded-lg border border-destructive/20 text-sm">
           <AlertTriangle className="w-4 h-4 shrink-0" />
           {error}
         </div>
@@ -142,38 +142,38 @@ export default function AdminDevelopmentsPage() {
 
       {loading ? (
         <div className="flex items-center justify-center py-16">
-          <Loader2 className="w-8 h-8 animate-spin text-brand-600" />
+          <Loader2 className="w-8 h-8 animate-spin text-accent" />
         </div>
       ) : items.length === 0 ? (
-        <div className="text-center py-16 text-stone-500">
+        <div className="text-center py-16 text-muted-foreground">
           No hay desarrollos registrados.
         </div>
       ) : (
-        <div className="bg-white rounded-xl border border-stone-200 overflow-hidden">
+        <div className="bg-card rounded-xl border border-border overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
-              <thead className="bg-stone-50 border-b border-stone-200">
+              <thead className="bg-muted border-b border-border">
                 <tr>
-                  <th className="text-left px-4 py-3 font-medium text-stone-600">Nombre</th>
-                  <th className="text-left px-4 py-3 font-medium text-stone-600">Slug</th>
-                  <th className="text-left px-4 py-3 font-medium text-stone-600">Ubicacion</th>
-                  <th className="text-left px-4 py-3 font-medium text-stone-600">Avance</th>
-                  <th className="text-right px-4 py-3 font-medium text-stone-600">Acciones</th>
+                  <th className="text-left px-4 py-3 font-medium text-muted-foreground">Nombre</th>
+                  <th className="text-left px-4 py-3 font-medium text-muted-foreground">Slug</th>
+                  <th className="text-left px-4 py-3 font-medium text-muted-foreground">Ubicacion</th>
+                  <th className="text-left px-4 py-3 font-medium text-muted-foreground">Avance</th>
+                  <th className="text-right px-4 py-3 font-medium text-muted-foreground">Acciones</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-stone-100">
+              <tbody className="divide-y divide-border">
                 {items.map((item) => (
-                  <tr key={item.id} className="hover:bg-stone-50">
-                    <td className="px-4 py-3 font-medium text-stone-900">{item.name}</td>
-                    <td className="px-4 py-3 text-stone-600">{item.slug}</td>
-                    <td className="px-4 py-3 text-stone-600">{item.location}</td>
-                    <td className="px-4 py-3 text-stone-600">{item.progress}%</td>
+                  <tr key={item.id} className="hover:bg-muted/50">
+                    <td className="px-4 py-3 font-medium text-foreground">{item.name}</td>
+                    <td className="px-4 py-3 text-muted-foreground">{item.slug}</td>
+                    <td className="px-4 py-3 text-muted-foreground">{item.location}</td>
+                    <td className="px-4 py-3 text-muted-foreground">{item.progress}%</td>
                     <td className="px-4 py-3 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <Button
                           size="icon"
                           variant="ghost"
-                          className="h-8 w-8 text-stone-500 hover:text-brand-700"
+                          className="h-8 w-8 text-muted-foreground hover:text-primary"
                           onClick={() => openEdit(item)}
                         >
                           <Pencil className="w-4 h-4" />
@@ -181,7 +181,7 @@ export default function AdminDevelopmentsPage() {
                         <Button
                           size="icon"
                           variant="ghost"
-                          className="h-8 w-8 text-stone-500 hover:text-red-600"
+                          className="h-8 w-8 text-muted-foreground hover:text-destructive"
                           onClick={() => setDeleteId(item.id)}
                         >
                           <Trash2 className="w-4 h-4" />
@@ -197,7 +197,7 @@ export default function AdminDevelopmentsPage() {
       )}
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="font-serif">
               {form.id ? "Editar desarrollo" : "Nuevo desarrollo"}
@@ -228,7 +228,7 @@ export default function AdminDevelopmentsPage() {
                 value={form.description}
                 onChange={(e) => updateField("description", e.target.value)}
                 rows={3}
-                className="w-full rounded-md border border-stone-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                className="w-full rounded-md border border-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
               />
             </div>
             <div className="space-y-2">
@@ -301,7 +301,7 @@ export default function AdminDevelopmentsPage() {
                   }
                 }}
                 rows={3}
-                className="w-full rounded-md border border-stone-200 px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-brand-500"
+                className="w-full rounded-md border border-border px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-ring"
               />
             </div>
             <div className="space-y-2 sm:col-span-2">
@@ -317,7 +317,7 @@ export default function AdminDevelopmentsPage() {
                   }
                 }}
                 rows={3}
-                className="w-full rounded-md border border-stone-200 px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-brand-500"
+                className="w-full rounded-md border border-border px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-ring"
               />
             </div>
             <div className="space-y-2 sm:col-span-2">
@@ -333,18 +333,18 @@ export default function AdminDevelopmentsPage() {
                   }
                 }}
                 rows={2}
-                className="w-full rounded-md border border-stone-200 px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-brand-500"
+                className="w-full rounded-md border border-border px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-ring"
               />
             </div>
           </div>
           {error && (
-            <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded-md">{error}</p>
+            <p className="text-sm text-destructive bg-destructive/10 px-3 py-2 rounded-md">{error}</p>
           )}
           <DialogFooter>
             <Button variant="outline" onClick={() => setDialogOpen(false)} disabled={saving}>
               Cancelar
             </Button>
-            <Button onClick={handleSave} disabled={saving} className="bg-brand-700 hover:bg-brand-800">
+            <Button onClick={handleSave} disabled={saving} className="bg-primary hover:bg-primary/90">
               {saving && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
               Guardar
             </Button>

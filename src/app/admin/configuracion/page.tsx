@@ -66,7 +66,7 @@ export default function AdminConfigPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-16">
-        <Loader2 className="w-8 h-8 animate-spin text-brand-600" />
+        <Loader2 className="w-8 h-8 animate-spin text-accent" />
       </div>
     );
   }
@@ -74,12 +74,12 @@ export default function AdminConfigPage() {
   return (
     <div className="space-y-6 max-w-2xl">
       <div>
-        <h1 className="font-serif text-2xl font-bold text-stone-900">Configuracion</h1>
-        <p className="text-stone-600">Edita los datos de contacto y meta tags del sitio.</p>
+        <h1 className="font-serif text-2xl font-bold text-foreground">Configuracion</h1>
+        <p className="text-muted-foreground">Edita los datos de contacto y meta tags del sitio.</p>
       </div>
 
       {error && (
-        <div className="flex items-center gap-2 text-red-700 bg-red-50 px-4 py-3 rounded-lg border border-red-200 text-sm">
+        <div className="flex items-center gap-2 text-destructive bg-destructive/10 px-4 py-3 rounded-lg border border-destructive/20 text-sm">
           <AlertTriangle className="w-4 h-4 shrink-0" />
           {error}
         </div>
@@ -92,7 +92,7 @@ export default function AdminConfigPage() {
         </div>
       )}
 
-      <div className="bg-white rounded-xl border border-stone-200 p-6 space-y-4">
+      <div className="bg-card rounded-xl border border-border p-6 space-y-4">
         <div className="space-y-2">
           <Label htmlFor="company_name">Nombre de la empresa</Label>
           <Input id="company_name" value={settings.company_name || ""} onChange={(e) => update("company_name", e.target.value)} />
@@ -128,10 +128,10 @@ export default function AdminConfigPage() {
             value={settings.meta_description || ""}
             onChange={(e) => update("meta_description", e.target.value)}
             rows={3}
-            className="w-full rounded-md border border-stone-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+            className="w-full rounded-md border border-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
           />
         </div>
-        <Button onClick={handleSave} disabled={saving} className="bg-brand-700 hover:bg-brand-800">
+        <Button onClick={handleSave} disabled={saving}>
           {saving && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
           Guardar configuracion
         </Button>

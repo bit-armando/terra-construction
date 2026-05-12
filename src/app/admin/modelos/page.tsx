@@ -147,17 +147,17 @@ export default function AdminModelsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-serif text-2xl font-bold text-stone-900">Modelos</h1>
-          <p className="text-stone-600">Gestiona el catálogo de casas.</p>
+          <h1 className="font-serif text-2xl font-bold text-foreground">Modelos</h1>
+          <p className="text-muted-foreground">Gestiona el catálogo de casas.</p>
         </div>
-        <Button onClick={openNew} className="bg-brand-700 hover:bg-brand-800 gap-2">
+        <Button onClick={openNew} className="gap-2">
           <Plus className="w-4 h-4" />
           Nuevo modelo
         </Button>
       </div>
 
       {error && !dialogOpen && (
-        <div className="flex items-center gap-2 text-red-700 bg-red-50 px-4 py-3 rounded-lg border border-red-200 text-sm">
+        <div className="flex items-center gap-2 text-destructive bg-destructive/10 px-4 py-3 rounded-lg border border-destructive/20 text-sm">
           <AlertTriangle className="w-4 h-4 shrink-0" />
           {error}
         </div>
@@ -165,32 +165,32 @@ export default function AdminModelsPage() {
 
       {loading ? (
         <div className="flex items-center justify-center py-16">
-          <Loader2 className="w-8 h-8 animate-spin text-brand-600" />
+          <Loader2 className="w-8 h-8 animate-spin text-accent" />
         </div>
       ) : models.length === 0 ? (
-        <div className="text-center py-16 text-stone-500">
+        <div className="text-center py-16 text-muted-foreground">
           No hay modelos registrados.
         </div>
       ) : (
-        <div className="bg-white rounded-xl border border-stone-200 overflow-hidden">
+        <div className="bg-card rounded-xl border border-border overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
-              <thead className="bg-stone-50 border-b border-stone-200">
+              <thead className="bg-muted border-b border-border">
                 <tr>
-                  <th className="text-left px-4 py-3 font-medium text-stone-600">Nombre</th>
-                  <th className="text-left px-4 py-3 font-medium text-stone-600">Slug</th>
-                  <th className="text-left px-4 py-3 font-medium text-stone-600">Precio</th>
-                  <th className="text-left px-4 py-3 font-medium text-stone-600">Estado</th>
-                  <th className="text-left px-4 py-3 font-medium text-stone-600">Ubicación</th>
-                  <th className="text-right px-4 py-3 font-medium text-stone-600">Acciones</th>
+                  <th className="text-left px-4 py-3 font-medium text-muted-foreground">Nombre</th>
+                  <th className="text-left px-4 py-3 font-medium text-muted-foreground">Slug</th>
+                  <th className="text-left px-4 py-3 font-medium text-muted-foreground">Precio</th>
+                  <th className="text-left px-4 py-3 font-medium text-muted-foreground">Estado</th>
+                  <th className="text-left px-4 py-3 font-medium text-muted-foreground">Ubicación</th>
+                  <th className="text-right px-4 py-3 font-medium text-muted-foreground">Acciones</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-stone-100">
+              <tbody className="divide-y divide-border">
                 {models.map((m) => (
-                  <tr key={m.id} className="hover:bg-stone-50">
-                    <td className="px-4 py-3 font-medium text-stone-900">{m.name}</td>
-                    <td className="px-4 py-3 text-stone-600">{m.slug}</td>
-                    <td className="px-4 py-3 text-stone-600">
+                  <tr key={m.id} className="hover:bg-muted/50">
+                    <td className="px-4 py-3 font-medium text-foreground">{m.name}</td>
+                    <td className="px-4 py-3 text-muted-foreground">{m.slug}</td>
+                    <td className="px-4 py-3 text-muted-foreground">
                       {m.priceFrom ? "Desde " : ""}
                       {new Intl.NumberFormat("es-MX", {
                         style: "currency",
@@ -199,17 +199,17 @@ export default function AdminModelsPage() {
                       }).format(m.price)}
                     </td>
                     <td className="px-4 py-3">
-                      <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-stone-100 text-stone-700">
+                      <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-secondary text-secondary-foreground">
                         {statusLabels[m.status] || m.status}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-stone-600">{m.location}</td>
+                    <td className="px-4 py-3 text-muted-foreground">{m.location}</td>
                     <td className="px-4 py-3 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <Button
                           size="icon"
                           variant="ghost"
-                          className="h-8 w-8 text-stone-500 hover:text-brand-700"
+                          className="h-8 w-8 text-muted-foreground hover:text-primary"
                           onClick={() => openEdit(m)}
                         >
                           <Pencil className="w-4 h-4" />
@@ -217,7 +217,7 @@ export default function AdminModelsPage() {
                         <Button
                           size="icon"
                           variant="ghost"
-                          className="h-8 w-8 text-stone-500 hover:text-red-600"
+                          className="h-8 w-8 text-muted-foreground hover:text-destructive"
                           onClick={() => setDeleteId(m.id)}
                         >
                           <Trash2 className="w-4 h-4" />
@@ -233,7 +233,7 @@ export default function AdminModelsPage() {
       )}
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="font-serif">
               {form.id ? "Editar modelo" : "Nuevo modelo"}
@@ -264,7 +264,7 @@ export default function AdminModelsPage() {
                 value={form.description}
                 onChange={(e) => updateField("description", e.target.value)}
                 rows={3}
-                className="w-full rounded-md border border-stone-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                className="w-full rounded-md border border-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
               />
             </div>
             <div className="space-y-2">
@@ -392,7 +392,7 @@ export default function AdminModelsPage() {
                   }
                 }}
                 rows={3}
-                className="w-full rounded-md border border-stone-200 px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-brand-500"
+                className="w-full rounded-md border border-border px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-ring"
               />
             </div>
             <div className="space-y-2 sm:col-span-2">
@@ -410,7 +410,7 @@ export default function AdminModelsPage() {
                   }
                 }}
                 rows={3}
-                className="w-full rounded-md border border-stone-200 px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-brand-500"
+                className="w-full rounded-md border border-border px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-ring"
               />
             </div>
             <div className="space-y-2 sm:col-span-2">
@@ -428,7 +428,7 @@ export default function AdminModelsPage() {
                   }
                 }}
                 rows={2}
-                className="w-full rounded-md border border-stone-200 px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-brand-500"
+                className="w-full rounded-md border border-border px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-ring"
               />
             </div>
             <div className="flex items-center gap-2 sm:col-span-2">
@@ -437,7 +437,7 @@ export default function AdminModelsPage() {
                 type="checkbox"
                 checked={form.priceFrom}
                 onChange={(e) => updateField("priceFrom", e.target.checked)}
-                className="rounded border-stone-300 text-brand-600 focus:ring-brand-500"
+                className="rounded border-border text-accent focus:ring-ring"
               />
               <Label htmlFor="priceFrom" className="font-normal">
                 Mostrar &quot;Desde&quot; antes del precio
@@ -445,13 +445,13 @@ export default function AdminModelsPage() {
             </div>
           </div>
           {error && (
-            <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded-md">{error}</p>
+            <p className="text-sm text-destructive bg-destructive/10 px-3 py-2 rounded-md">{error}</p>
           )}
           <DialogFooter>
             <Button variant="outline" onClick={() => setDialogOpen(false)} disabled={saving}>
               Cancelar
             </Button>
-            <Button onClick={handleSave} disabled={saving} className="bg-brand-700 hover:bg-brand-800">
+            <Button onClick={handleSave} disabled={saving} className="bg-primary hover:bg-primary/90">
               {saving && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
               Guardar
             </Button>

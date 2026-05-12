@@ -58,8 +58,8 @@ export default function AdminDashboardPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-serif text-2xl font-bold text-stone-900">Dashboard</h1>
-        <p className="text-stone-600">Administra el contenido de tu sitio web.</p>
+        <h1 className="font-serif text-2xl font-bold text-foreground">Dashboard</h1>
+        <p className="text-muted-foreground">Administra el contenido de tu sitio web.</p>
       </div>
 
       {dbStatus === false && (
@@ -93,56 +93,56 @@ export default function AdminDashboardPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-stone-600">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
               Modelos
             </CardTitle>
-            <Home className="w-4 h-4 text-brand-600" />
+            <Home className="w-4 h-4 text-accent" />
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-stone-900">{stats.models}</div>
-            <Link href="/admin/modelos" className="text-xs text-brand-600 hover:underline mt-1 inline-block">
+            <div className="text-3xl font-bold text-foreground">{stats.models}</div>
+            <Link href="/admin/modelos" className="text-xs text-accent hover:underline mt-1 inline-block">
               Gestionar →
             </Link>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-stone-600">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
               Desarrollos
             </CardTitle>
-            <Trees className="w-4 h-4 text-brand-600" />
+            <Trees className="w-4 h-4 text-accent" />
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-stone-900">{stats.developments}</div>
-            <Link href="/admin/desarrollos" className="text-xs text-brand-600 hover:underline mt-1 inline-block">
+            <div className="text-3xl font-bold text-foreground">{stats.developments}</div>
+            <Link href="/admin/desarrollos" className="text-xs text-accent hover:underline mt-1 inline-block">
               Gestionar →
             </Link>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-stone-600">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
               Configuración
             </CardTitle>
-            <Settings className="w-4 h-4 text-brand-600" />
+            <Settings className="w-4 h-4 text-accent" />
           </CardHeader>
           <CardContent>
-            <div className="text-sm text-stone-500 mt-1">Teléfono, email, meta tags...</div>
-            <Link href="/admin/configuracion" className="text-xs text-brand-600 hover:underline mt-1 inline-block">
+            <div className="text-sm text-muted-foreground mt-1">Teléfono, email, meta tags...</div>
+            <Link href="/admin/configuracion" className="text-xs text-accent hover:underline mt-1 inline-block">
               Editar →
             </Link>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-stone-600">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
               Exportar
             </CardTitle>
-            <Download className="w-4 h-4 text-brand-600" />
+            <Download className="w-4 h-4 text-accent" />
           </CardHeader>
           <CardContent>
-            <div className="text-sm text-stone-500 mt-1">JSON e importación</div>
-            <Link href="/admin/exportar" className="text-xs text-brand-600 hover:underline mt-1 inline-block">
+            <div className="text-sm text-muted-foreground mt-1">JSON e importación</div>
+            <Link href="/admin/exportar" className="text-xs text-accent hover:underline mt-1 inline-block">
               Ver →
             </Link>
           </CardContent>

@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Manrope, Playfair_Display } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/shared/Header";
-import { LayoutExtras } from "@/components/shared/LayoutExtras";
+import { GlobalShell } from "@/components/shared/GlobalShell";
 
-const inter = Inter({
+const manrope = Manrope({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-manrope",
   display: "swap",
 });
 
@@ -40,11 +39,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es-MX" className={`${inter.variable} ${playfair.variable}`}>
+    <html lang="es-MX" className={`${manrope.variable} ${playfair.variable}`}>
       <body className="min-h-screen flex flex-col">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <LayoutExtras />
+        <GlobalShell>{children}</GlobalShell>
       </body>
     </html>
   );

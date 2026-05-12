@@ -30,11 +30,11 @@ export function AdminSidebar({ onLogout }: { onLogout: () => void }) {
 
   const NavContent = (
     <div className="flex flex-col h-full">
-      <div className="flex items-center gap-2 px-4 py-5 border-b border-stone-200">
-        <div className="w-8 h-8 bg-brand-700 rounded-md flex items-center justify-center">
-          <span className="text-white font-serif font-bold text-sm">TC</span>
+      <div className="flex items-center gap-2 px-4 py-5 border-b border-border">
+        <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center">
+          <span className="text-primary-foreground font-serif font-bold text-sm">TC</span>
         </div>
-        <span className="font-serif font-bold text-stone-800">Admin</span>
+        <span className="font-serif font-bold text-foreground">Admin</span>
       </div>
       <nav className="flex-1 px-3 py-4 space-y-1">
         {navItems.map((item) => {
@@ -48,8 +48,8 @@ export function AdminSidebar({ onLogout }: { onLogout: () => void }) {
               className={cn(
                 "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
                 active
-                  ? "bg-brand-50 text-brand-700"
-                  : "text-stone-600 hover:bg-stone-100 hover:text-stone-900"
+                  ? "bg-secondary text-primary"
+                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
               )}
             >
               <Icon className="w-4 h-4" />
@@ -58,10 +58,10 @@ export function AdminSidebar({ onLogout }: { onLogout: () => void }) {
           );
         })}
       </nav>
-      <div className="p-3 border-t border-stone-200">
+      <div className="p-3 border-t border-border">
         <Button
           variant="ghost"
-          className="w-full justify-start text-stone-600 hover:text-red-600 gap-2"
+          className="w-full justify-start text-muted-foreground hover:text-destructive gap-2"
           onClick={onLogout}
         >
           <LogOut className="w-4 h-4" />
@@ -74,12 +74,12 @@ export function AdminSidebar({ onLogout }: { onLogout: () => void }) {
   return (
     <>
       {/* Mobile */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-white border-b border-stone-200 px-4 h-14 flex items-center justify-between">
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-card border-b border-border px-4 h-14 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 bg-brand-700 rounded-md flex items-center justify-center">
-            <span className="text-white font-serif font-bold text-xs">TC</span>
+          <div className="w-7 h-7 bg-primary rounded-md flex items-center justify-center">
+            <span className="text-primary-foreground font-serif font-bold text-xs">TC</span>
           </div>
-          <span className="font-serif font-bold text-stone-800 text-sm">Admin</span>
+          <span className="font-serif font-bold text-foreground text-sm">Admin</span>
         </div>
         <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
           <SheetTrigger>
@@ -94,7 +94,7 @@ export function AdminSidebar({ onLogout }: { onLogout: () => void }) {
       </div>
 
       {/* Desktop */}
-      <aside className="hidden lg:flex w-64 flex-col border-r border-stone-200 bg-white h-screen sticky top-0">
+      <aside className="hidden lg:flex w-64 flex-col border-r border-border bg-card h-screen sticky top-0">
         {NavContent}
       </aside>
     </>

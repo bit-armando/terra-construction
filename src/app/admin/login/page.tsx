@@ -50,18 +50,18 @@ export default function AdminLoginPage() {
 
   if (checking) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-stone-50">
-        <Loader2 className="w-8 h-8 animate-spin text-brand-600" />
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <Loader2 className="w-8 h-8 animate-spin text-accent" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-stone-50 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-background px-4">
       <Card className="w-full max-w-sm">
         <CardHeader className="text-center">
-          <div className="w-10 h-10 bg-brand-700 rounded-lg flex items-center justify-center mx-auto mb-3">
-            <span className="text-white font-serif font-bold text-lg">TC</span>
+          <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center mx-auto mb-3">
+            <span className="text-primary-foreground font-serif font-bold text-lg">TC</span>
           </div>
           <CardTitle className="font-serif text-xl">Panel de administración</CardTitle>
         </CardHeader>
@@ -74,16 +74,16 @@ export default function AdminLoginPage() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
+                placeholder=""
                 required
               />
             </div>
             {error && (
-              <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded-md">
+              <p className="text-sm text-destructive bg-destructive/10 px-3 py-2 rounded-md">
                 {error}
               </p>
             )}
-            <Button type="submit" className="w-full bg-brand-700 hover:bg-brand-800" disabled={loading}>
+            <Button type="submit" className="w-full" disabled={loading}>
               {loading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
               Ingresar
             </Button>

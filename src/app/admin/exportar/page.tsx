@@ -85,13 +85,13 @@ export default function AdminExportPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="font-serif text-2xl font-bold text-stone-900">Exportar / Importar</h1>
-        <p className="text-stone-600">Descarga plantillas JSON o importa datos.</p>
+        <h1 className="font-serif text-2xl font-bold text-foreground">Exportar / Importar</h1>
+        <p className="text-muted-foreground">Descarga plantillas JSON o importa datos.</p>
       </div>
 
-      <div className="bg-white rounded-xl border border-stone-200 p-6 space-y-4">
-        <h2 className="font-semibold text-stone-900">Exportar datos</h2>
-        <p className="text-sm text-stone-600">
+      <div className="bg-card rounded-xl border border-border p-6 space-y-4">
+        <h2 className="font-semibold text-foreground">Exportar datos</h2>
+        <p className="text-sm text-muted-foreground">
           Descarga los datos actuales como JSON para respaldar o editar externamente.
         </p>
         <div className="flex flex-wrap gap-3">
@@ -109,14 +109,14 @@ export default function AdminExportPage() {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl border border-stone-200 p-6 space-y-4">
-        <h2 className="font-semibold text-stone-900">Importar datos</h2>
-        <p className="text-sm text-stone-600">
+      <div className="bg-card rounded-xl border border-border p-6 space-y-4">
+        <h2 className="font-semibold text-foreground">Importar datos</h2>
+        <p className="text-sm text-muted-foreground">
           Pega un JSON con uno o varios objetos para importar. Requiere base de datos configurada.
         </p>
 
         {importError && (
-          <div className="flex items-center gap-2 text-red-700 bg-red-50 px-4 py-3 rounded-lg border border-red-200 text-sm">
+          <div className="flex items-center gap-2 text-red-700 bg-destructive/10 px-4 py-3 rounded-lg border border-destructive/20 text-sm">
             <AlertTriangle className="w-4 h-4 shrink-0" />
             {importError}
           </div>
@@ -147,14 +147,14 @@ export default function AdminExportPage() {
             onChange={(e) => setImportText(e.target.value)}
             rows={10}
             placeholder={`[\n  {\n    "slug": "modelo-ejemplo",\n    "name": "Modelo Ejemplo",\n    ...\n  }\n]`}
-            className="w-full rounded-md border border-stone-200 px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-brand-500"
+            className="w-full rounded-md border border-border px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-ring"
           />
         </div>
 
         <Button
           onClick={handleImport}
           disabled={importing || !importText.trim()}
-          className="bg-brand-700 hover:bg-brand-800 gap-2"
+          className="gap-2"
         >
           {importing && <Loader2 className="w-4 h-4 animate-spin" />}
           <Upload className="w-4 h-4" />
