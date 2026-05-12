@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { ArrowDown, Phone, Home, Award, Users } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { useWhatsApp } from "@/hooks/useWhatsApp";
 
 export function Hero() {

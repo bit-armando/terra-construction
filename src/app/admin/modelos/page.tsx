@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { HouseModel } from "@/lib/types";
+import { HouseModel, Development } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -50,6 +50,7 @@ const emptyForm: FormData = {
 
 export default function AdminModelsPage() {
   const [models, setModels] = useState<HouseModel[]>([]);
+  const [developments, setDevelopments] = useState<Development[]>([]);
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [form, setForm] = useState<FormData>(emptyForm);
@@ -61,9 +62,14 @@ export default function AdminModelsPage() {
   async function load() {
     setLoading(true);
     try {
-      const res = await fetch("/api/models");
-      const data = await res.json();
-      setModels(Array.isArray(data) ? data : []);
+      const [modRes, devRes] = await Promise.all([
+        fetch("/api/models"),
+        fetch("/api/developments"),
+      ]);
+      const modData = await modRes.json();
+      const devData = await devRes.json();
+      setModels(Array.isArray(modData) ? modData : []);
+      setDevelopments(Array.isArray(devData) ? devData : []);
     } catch {
       setModels([]);
     } finally {
@@ -274,8 +280,9 @@ export default function AdminModelsPage() {
               <Input
                 id="price"
                 type="number"
-                value={form.price}
-                onChange={(e) => updateField("price", Number(e.target.value))}
+                value={form.price === 0 ? "" : form.price}
+                placeholder="0"
+                onChange={(e) => updateField("price", e.target.value === "" ? 0 : Number(e.target.value))}
               />
             </div>
             <div className="space-y-2">
@@ -300,8 +307,9 @@ export default function AdminModelsPage() {
               <Input
                 id="bedrooms"
                 type="number"
-                value={form.bedrooms}
-                onChange={(e) => updateField("bedrooms", Number(e.target.value))}
+                value={form.bedrooms === 0 ? "" : form.bedrooms}
+                placeholder="0"
+                onChange={(e) => updateField("bedrooms", e.target.value === "" ? 0 : Number(e.target.value))}
               />
             </div>
             <div className="space-y-2">
@@ -309,8 +317,9 @@ export default function AdminModelsPage() {
               <Input
                 id="bathrooms"
                 type="number"
-                value={form.bathrooms}
-                onChange={(e) => updateField("bathrooms", Number(e.target.value))}
+                value={form.bathrooms === 0 ? "" : form.bathrooms}
+                placeholder="0"
+                onChange={(e) => updateField("bathrooms", e.target.value === "" ? 0 : Number(e.target.value))}
               />
             </div>
             <div className="space-y-2">
@@ -318,8 +327,9 @@ export default function AdminModelsPage() {
               <Input
                 id="sqm"
                 type="number"
-                value={form.sqm}
-                onChange={(e) => updateField("sqm", Number(e.target.value))}
+                value={form.sqm === 0 ? "" : form.sqm}
+                placeholder="0"
+                onChange={(e) => updateField("sqm", e.target.value === "" ? 0 : Number(e.target.value))}
               />
             </div>
             <div className="space-y-2">
@@ -327,25 +337,26 @@ export default function AdminModelsPage() {
               <Input
                 id="parking"
                 type="number"
-                value={form.parking}
-                onChange={(e) => updateField("parking", Number(e.target.value))}
+                value={form.parking === 0 ? "" : form.parking}
+                placeholder="0"
+                onChange={(e) => updateField("parking", e.target.value === "" ? 0 : Number(e.target.value))}
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="location">Ubicación</Label>
-              <Input
-                id="location"
-                value={form.location}
-                onChange={(e) => updateField("location", e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="development">Desarrollo</Label>
-              <Input
-                id="development"
+            <div className="space-y-2 sm:col-span-2">
+              <Label htmlFor="development">Desarrollo al que pertenece</Label>
+              <Select
                 value={form.development}
-                onChange={(e) => updateField("development", e.target.value)}
-              />
+                onValueChange={(v) => updateField("development", v ?? "")}
+              >
+                <SelectTrigger id="development">
+                  <SelectValue placeholder="Seleccionar desarrollo" />
+                </SelectTrigger>
+                <SelectContent>
+                  {developments.map((d) => (
+                    <SelectItem key={d.id} value={d.slug}>{d.name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <div className="space-y-2 sm:col-span-2">
               <Label>Thumbnail</Label>
