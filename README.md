@@ -1,4 +1,4 @@
-# Integraciones Templer — Sitio Web Inmobiliario
+# Terra Construction — Sitio Web Inmobiliario
 
 Sitio web moderno para constructora mexicana, construido con Next.js 14 + Tailwind CSS + shadcn/ui.
 
@@ -195,4 +195,4 @@ Las imágenes actuales usan Unsplash como placeholder. Reemplaza las URLs en los
 
 ## Licencia
 
-Proyecto privado para Integraciones Templer.
+Proyecto privado para Terra Construction.

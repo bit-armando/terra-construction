@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import jwt from "jsonwebtoken";
 
-const JWT_SECRET = process.env.JWT_SECRET || "templer-secret-key-change-in-production";
+const JWT_SECRET = process.env.JWT_SECRET || "terra-secret-key-change-in-production";
 
 export function verifyAdminToken(request: NextRequest): boolean {
   const token = request.cookies.get("admin_token")?.value;

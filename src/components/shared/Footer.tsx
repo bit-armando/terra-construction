@@ -10,14 +10,14 @@ export function Footer() {
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <div className="w-10 h-10 bg-brand-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-serif font-bold text-lg">IT</span>
+                <span className="text-white font-serif font-bold text-lg">TC</span>
               </div>
               <div>
                 <h3 className="font-serif text-lg font-bold text-white leading-tight">
-                  INTEGRACIONES
+                  TERRA
                 </h3>
                 <p className="text-[10px] tracking-[0.3em] text-brand-400 uppercase -mt-1">
-                  Templer
+                  Construction
                 </p>
               </div>
             </div>
@@ -65,7 +65,7 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-3 text-sm">
                 <Mail className="w-4 h-4 text-brand-400 shrink-0" />
-                <span>contacto@integracionestempler.com</span>
+                <span>contacto@terraconstruction.com</span>
               </li>
               <li className="flex items-center gap-3 text-sm">
                 <Clock className="w-4 h-4 text-brand-400 shrink-0" />
@@ -117,7 +117,7 @@ export function Footer() {
 
         <div className="border-t border-stone-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs text-stone-500">
-            © {new Date().getFullYear()} Integraciones Templer. Todos los derechos reservados.
+            © {new Date().getFullYear()} Terra Construction. Todos los derechos reservados.
           </p>
           <div className="flex gap-4 text-xs text-stone-500">
             <Link href="/privacidad" className="hover:text-stone-300 transition-colors">

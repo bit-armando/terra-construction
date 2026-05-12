@@ -62,7 +62,7 @@ export function About() {
             </h2>
             <div className="space-y-4 text-stone-600 leading-relaxed">
               <p>
-                Integraciones Templer nació con una visión clara: democratizar el acceso
+                Terra Construction nació con una visión clara: democratizar el acceso
                 a vivienda de calidad en Querétaro. Desde 2014, hemos entregado más de 500
                 hogares a familias que confiaron en nosotros para hacer realidad su sueño.
               </p>
@@ -90,7 +90,7 @@ export function About() {
             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
               <SafeImage
                 src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80"
-                alt="Equipo de Integraciones Templer"
+                alt="Equipo de Terra Construction"
                 fill
                 className="object-cover"
               />

@@ -23,7 +23,7 @@ export function ModelCatalog() {
   // Load favorites from localStorage on mount
   useState(() => {
     try {
-      const saved = localStorage.getItem("templer-favorites");
+      const saved = localStorage.getItem("terra-favorites");
       if (saved) setFavorites(JSON.parse(saved));
     } catch {
       // ignore
@@ -35,7 +35,7 @@ export function ModelCatalog() {
       const next = prev.includes(id)
         ? prev.filter((f) => f !== id)
         : [...prev, id];
-      localStorage.setItem("templer-favorites", JSON.stringify(next));
+      localStorage.setItem("terra-favorites", JSON.stringify(next));
       return next;
     });
   };

@@ -84,10 +84,10 @@ CREATE TABLE IF NOT EXISTS team_members (
 -- Seed default settings
 INSERT OR IGNORE INTO settings (key, value) VALUES
   ('whatsapp_phone', '5214421234567'),
-  ('company_name', 'Integraciones Templer'),
+  ('company_name', 'Terra Construction'),
   ('company_address', 'Av. Constituyentes 123, Centro, Querétaro, Qro. 76000'),
   ('company_phone', '442 123 4567'),
-  ('company_email', 'contacto@integracionestempler.com'),
+  ('company_email', 'contacto@terraconstruction.com'),
   ('company_hours', 'Lun - Vie: 9:00 - 18:00'),
-  ('meta_title', 'Integraciones Templer | Casas en Querétaro y San Juan del Río'),
+  ('meta_title', 'Terra Construction | Casas en Querétaro y San Juan del Río'),
   ('meta_description', 'Encuentra tu casa ideal en Querétaro. Modelos desde $1,190,000 MXN. Créditos INFONAVIT, FOVISSSTE y bancarios.');

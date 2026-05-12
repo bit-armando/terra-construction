@@ -4,10 +4,10 @@ import { verifyAdminToken, getAuthErrorResponse } from "@/lib/auth";
 
 const DEFAULT_SETTINGS: Record<string, string> = {
   whatsapp_phone: "5214421234567",
-  company_name: "Integraciones Templer",
+  company_name: "Terra Construction",
   company_address: "Av. Constituyentes 123, Centro, Querétaro, Qro. 76000",
   company_phone: "442 123 4567",
-  company_email: "contacto@integracionestempler.com",
+  company_email: "contacto@terraconstruction.com",
   company_hours: "Lun - Vie: 9:00 - 18:00",
 };
 

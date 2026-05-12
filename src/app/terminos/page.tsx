@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Términos y Condiciones | Integraciones Templer",
+  title: "Términos y Condiciones | Terra Construction",
 };
 
 export default function TermsPage() {
@@ -45,7 +45,7 @@ export default function TermsPage() {
           </h2>
           <p className="text-stone-600 mb-4">
             Todo el contenido de este sitio web, incluyendo textos, imágenes, logotipos,
-            diseños y código, es propiedad de Integraciones Templer o de sus licenciantes
+            diseños y código, es propiedad de Terra Construction o de sus licenciantes
             y está protegido por las leyes de propiedad intelectual.
           </p>
 
@@ -63,7 +63,7 @@ export default function TermsPage() {
             5. Limitación de responsabilidad
           </h2>
           <p className="text-stone-600 mb-4">
-            Integraciones Templer no se hace responsable por daños directos, indirectos,
+            Terra Construction no se hace responsable por daños directos, indirectos,
             incidentales o consecuenciales derivados del uso o incapacidad de uso de este
             sitio web o de la información contenida en él.
           </p>

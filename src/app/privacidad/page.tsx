@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Aviso de Privacidad | Integraciones Templer",
+  title: "Aviso de Privacidad | Terra Construction",
 };
 
 export default function PrivacyPage() {
@@ -21,7 +21,7 @@ export default function PrivacyPage() {
 
         <div className="prose prose-stone max-w-none">
           <p className="text-stone-600 mb-6">
-            Integraciones Templer, con domicilio en Av. Constituyentes 123, Centro,
+            Terra Construction, con domicilio en Av. Constituyentes 123, Centro,
             Querétaro, Qro. 76000, es responsable del tratamiento de sus datos personales.
           </p>
 
@@ -75,7 +75,7 @@ export default function PrivacyPage() {
           </h2>
           <p className="text-stone-600">
             Para ejercer sus derechos ARCO o revocar su consentimiento, puede contactarnos
-            a través del correo electrónico: privacidad@integracionestempler.com
+            a través del correo electrónico: privacidad@terraconstruction.com
           </p>
         </div>
       </div>

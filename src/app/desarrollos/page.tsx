@@ -7,7 +7,7 @@ import { MapPin, Trees, Shield, Waves, Dumbbell, PartyPopper, Dog, Route, ArrowL
 import { Badge } from "@/components/ui/badge";
 
 export const metadata: Metadata = {
-  title: "Desarrollos | Integraciones Templer",
+  title: "Desarrollos | Terra Construction",
   description: "Explora nuestros desarrollos inmobiliarios en Querétaro y San Juan del Río.",
 };
 

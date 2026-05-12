@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123";
-const JWT_SECRET = process.env.JWT_SECRET || "templer-secret-key-change-in-production";
+const JWT_SECRET = process.env.JWT_SECRET || "terra-secret-key-change-in-production";
 
 export async function POST(request: NextRequest) {
   try {
@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
       maxAge: 60 * 60 * 24 * 7,
-      path: "/admin",
+      path: "/",
     });
 
     return response;
@@ -31,6 +31,6 @@ export async function POST(request: NextRequest) {
 
 export async function DELETE() {
   const response = NextResponse.json({ success: true });
-  response.cookies.delete("admin_token");
+  response.cookies.delete({ name: "admin_token", path: "/" });
   return response;
 }

@@ -27,7 +27,7 @@ export const testimonials: Testimonial[] = [
     photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80",
     model: "Modelo Fortaleza",
     review:
-      "Mi primera casa y no pude haber elegido mejor. El proceso de crédito INFONAVIT fue sencillo con la ayuda de los asesores de Integraciones Templer. Hoy tengo un patrimonio para mi familia.",
+      "Mi primera casa y no pude haber elegido mejor. El proceso de crédito INFONAVIT fue sencillo con la ayuda de los asesores de Terra Construction. Hoy tengo un patrimonio para mi familia.",
     rating: 5,
     date: "2024-09-08",
   },
